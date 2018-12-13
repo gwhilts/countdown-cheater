@@ -1063,7 +1063,9 @@ a.box:active {
   padding-right: 0.75em;
   padding-top: calc(0.375em - 1px);
   text-align: center;
-  white-space: nowrap; }
+  white-space: nowrap; 
+  margin: 1rem;
+}
 
 .button strong, .letterbox strong {
   color: inherit; }
