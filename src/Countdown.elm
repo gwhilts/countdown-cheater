@@ -8,6 +8,7 @@ import Html.Attributes exposing (..)
 -- Program
 
 
+main : Program Never Model msg
 main =
     Html.beginnerProgram { model = initialModel, view = view, update = update }
 
@@ -16,14 +17,22 @@ main =
 -- Model
 
 
+type alias Model =
+    { letters : String
+    , words : List String
+    }
+
+
+initialModel : Model
 initialModel =
-    ""
+    Model "" []
 
 
 
 -- View
 
 
+view : Model -> Html msg
 view model =
     div [ id "app" ]
         [ header [ id "header", class "hero is-primary" ]
@@ -57,5 +66,6 @@ view model =
 -- Update
 
 
-update model =
+update : msg -> Model -> Model
+update msg model =
     model
