@@ -1,0 +1,9 @@
+# Node Modules
+node_modules
+
+# Elm-lang artifacts
+elm-stuff
+
+# Compiler output
+javascript/countdown.js
+

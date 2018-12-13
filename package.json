@@ -1,0 +1,22 @@
+{
+  "name": "countdown_cheater",
+  "version": "0.0.1",
+  "description": "A simple Elm demo app.",
+  "main": "javascript/countdown.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "elm": "^0.18.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/gwhilts/countdown_cheater.git"
+  },
+  "author": "Gerald Hilts",
+  "license": "MIT"
+}
