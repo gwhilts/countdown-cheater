@@ -9,15 +9,22 @@ import Html.Attributes exposing (..)
 
 
 main =
-    view
+    Html.beginnerProgram { model = initialModel, view = view, update = update }
 
 
 
 -- Model
+
+
+initialModel =
+    ""
+
+
+
 -- View
 
 
-view =
+view model =
     div [ id "app" ]
         [ header [ id "header", class "hero is-primary" ]
             [ div [ id "title", class "hero-body" ]
@@ -48,3 +55,7 @@ view =
 
 
 -- Update
+
+
+update model =
+    model
