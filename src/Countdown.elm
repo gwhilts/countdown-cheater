@@ -2,13 +2,14 @@ module Countdown exposing (main)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onInput)
 
 
 
 -- Program
 
 
-main : Program Never Model msg
+main : Program Never Model Msg
 main =
     Html.beginnerProgram { model = initialModel, view = view, update = update }
 
@@ -32,7 +33,7 @@ initialModel =
 -- View
 
 
-view : Model -> Html msg
+view : Model -> Html Msg
 view model =
     div [ id "app" ]
         [ header [ id "header", class "hero is-primary" ]
@@ -49,6 +50,7 @@ view model =
             [ input
                 [ placeholder "Type scrambled letters here"
                 , value model.letters
+                , onInput ChangeLetters
                 ]
                 []
             ]
@@ -85,6 +87,16 @@ wordboxFor word =
 -- Update
 
 
-update : msg -> Model -> Model
+type Msg
+    = ChangeLetters String
+
+
+update : Msg -> Model -> Model
 update msg model =
-    model
+    case msg of
+        ChangeLetters input ->
+            if String.length input < 10 then
+                { model | letters = input }
+
+            else
+                model
