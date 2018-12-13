@@ -25,7 +25,7 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    Model "" []
+    Model "edar" [ "read", "dear", "ade", "are", "ear", "rad" ]
 
 
 
@@ -43,23 +43,42 @@ view model =
             ]
         , section [ id "letters", class "columns" ]
             [ div [ class "column has-text-centered" ]
-                [ button [ class "letterbox" ] [ text "A" ]
-                , button [ class "letterbox" ] [ text "T" ]
-                , button [ class "letterbox" ] [ text "C" ]
-                ]
+                (letterboxes model.letters)
             ]
         , section [ id "controls" ]
-            [ input [ placeholder "Type scrambled letters here" ]
+            [ input
+                [ placeholder "Type scrambled letters here"
+                , value model.letters
+                ]
                 []
             ]
         , hr [] []
         , section [ id "found-words", class "section" ]
-            [ a [ class "button is-outlined  is-primary" ]
-                [ text "act" ]
-            , a [ class "button is-outlined  is-primary" ]
-                [ text "cat" ]
-            ]
+            (List.map wordboxFor model.words)
         ]
+
+
+
+-- View Helpers
+
+
+letterboxes : String -> List (Html msg)
+letterboxes letters =
+    letters
+        |> String.toUpper
+        |> String.toList
+        |> List.map letterboxFor
+
+
+letterboxFor : Char -> Html msg
+letterboxFor letter =
+    button [ class "letterbox" ] [ text (String.fromChar letter) ]
+
+
+wordboxFor : String -> Html msg
+wordboxFor word =
+    a [ class "button is-outlined  is-primary" ]
+        [ text word ]
 
 
 
