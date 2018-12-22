@@ -11,7 +11,12 @@ import Html.Events exposing (onInput)
 
 main : Program Never Model Msg
 main =
-    Html.beginnerProgram { model = initialModel, view = view, update = update }
+    Html.program
+        { init = ( initialModel, Cmd.none )
+        , view = view
+        , update = update
+        , subscriptions = \_ -> Sub.none
+        }
 
 
 
@@ -91,12 +96,12 @@ type Msg
     = ChangeLetters String
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ChangeLetters input ->
             if String.length input < 10 then
-                { model | letters = input }
+                ( { model | letters = input }, Cmd.none )
 
             else
-                model
+                ( model, Cmd.none )
