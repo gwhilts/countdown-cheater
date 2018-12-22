@@ -2,7 +2,7 @@ module Countdown exposing (main)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput)
+import Html.Events exposing (onClick, onInput)
 import Http
 import Json.Decode as Decode exposing (Decoder, field)
 
@@ -28,12 +28,13 @@ main =
 type alias Model =
     { letters : String
     , words : List String
+    , lookup : ( Bool, String )
     }
 
 
 initialModel : Model
 initialModel =
-    Model "" []
+    Model "" [] ( False, "" )
 
 
 
@@ -64,6 +65,7 @@ view model =
         , hr [] []
         , section [ id "found-words", class "section" ]
             (List.map wordboxFor model.words)
+        , popUpDef model.lookup
         ]
 
 
@@ -84,13 +86,40 @@ letterboxFor letter =
     button [ class "letterbox" ] [ text (String.fromChar letter) ]
 
 
-wordboxFor : String -> Html msg
+popUpDef : ( Bool, String ) -> Html Msg
+popUpDef ( show, word ) =
+    if show then
+        div [ class "definition modal is-active" ]
+            [ div [ class "modal-background" ]
+                []
+            , div [ class "modal-card" ]
+                [ header [ class "modal-card-head" ]
+                    [ button [ class "button is-large is-primary" ] [ text word ]
+                    , p [ class "modal-card-title" ] [ text " " ]
+                    , button [ class "delete", onClick HideDefinition ] [ text "close" ]
+                    ]
+                , section [ class "modal-card-body" ]
+                    [ iframe [ class "dict-frame", src ("https://www.merriam-webster.com/dictionary/" ++ word) ]
+                        []
+                    ]
+                ]
+            ]
+
+    else
+        text ""
+
+
+wordboxFor : String -> Html Msg
 wordboxFor word =
     let
         size =
             word |> String.length |> (\n -> (n * 6) + 2) |> toString
     in
-    a [ class "button is-outlined  is-primary", style [ ( "font-size", size ++ "px" ) ] ]
+    a
+        [ class "button is-outlined  is-primary"
+        , style [ ( "font-size", size ++ "px" ) ]
+        , onClick (ShowDefinition word)
+        ]
         [ text word ]
 
 
@@ -101,6 +130,8 @@ wordboxFor word =
 type Msg
     = ChangeLetters String
     | NewWords (Result Http.Error (List String))
+    | HideDefinition
+    | ShowDefinition String
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -116,11 +147,17 @@ update msg model =
             else
                 ( model, Cmd.none )
 
+        HideDefinition ->
+            ( { model | lookup = ( False, "" ) }, Cmd.none )
+
         NewWords (Ok anagrams) ->
             ( { model | words = anagrams }, Cmd.none )
 
         NewWords (Err error) ->
             ( { model | words = [ toString error ] }, Cmd.none )
+
+        ShowDefinition word ->
+            ( { model | lookup = ( True, word ) }, Cmd.none )
 
 
 
