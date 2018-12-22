@@ -3,6 +3,8 @@ module Countdown exposing (main)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onInput)
+import Http
+import Json.Decode as Decode exposing (Decoder, field)
 
 
 
@@ -31,7 +33,7 @@ type alias Model =
 
 initialModel : Model
 initialModel =
-    Model "edar" [ "read", "dear", "ade", "are", "ear", "rad" ]
+    Model "" []
 
 
 
@@ -94,14 +96,44 @@ wordboxFor word =
 
 type Msg
     = ChangeLetters String
+    | NewWords (Result Http.Error (List String))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ChangeLetters input ->
-            if String.length input < 10 then
-                ( { model | letters = input }, Cmd.none )
+            if String.length input < 3 then
+                ( { model | letters = String.toLower input, words = [] }, Cmd.none )
+
+            else if String.length input < 10 then
+                ( { model | letters = String.toLower input }, getAllAnagrams input )
 
             else
                 ( model, Cmd.none )
+
+        NewWords (Ok anagrams) ->
+            ( { model | words = anagrams }, Cmd.none )
+
+        NewWords (Err error) ->
+            ( { model | words = [ toString error ] }, Cmd.none )
+
+
+
+-- Commands
+
+
+getAllAnagrams : String -> Cmd Msg
+getAllAnagrams letters =
+    anagramsDecoder
+        |> Http.get ("http://localhost:3000/anagrams/all-words-for/" ++ letters)
+        |> Http.send NewWords
+
+
+
+-- Encoders / Decoders
+
+
+anagramsDecoder : Decoder (List String)
+anagramsDecoder =
+    field "anagrams" (Decode.list Decode.string)
