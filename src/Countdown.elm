@@ -1,5 +1,6 @@
 module Countdown exposing (main)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick, onInput)
@@ -11,10 +12,9 @@ import Json.Decode as Decode exposing (Decoder, field)
 -- Program
 
 
-main : Program Never Model Msg
 main =
-    Html.program
-        { init = ( initialModel, Cmd.none )
+    Browser.element
+        { init = init
         , view = view
         , update = update
         , subscriptions = \_ -> Sub.none
@@ -32,9 +32,9 @@ type alias Model =
     }
 
 
-initialModel : Model
-initialModel =
-    Model "" [] ( False, "" )
+init : () -> ( Model, Cmd Msg )
+init _ =
+    ( Model "" [] ( False, "" ), Cmd.none )
 
 
 
@@ -113,11 +113,11 @@ wordboxFor : String -> Html Msg
 wordboxFor word =
     let
         size =
-            word |> String.length |> (\n -> (n * 6) + 2) |> toString
+            word |> String.length |> (\n -> (n * 6) + 2) |> String.fromInt
     in
     a
         [ class "button is-outlined  is-primary"
-        , style [ ( "font-size", size ++ "px" ) ]
+        , style "font-size" (size ++ "px")
         , onClick (ShowDefinition word)
         ]
         [ text word ]
@@ -154,7 +154,7 @@ update msg model =
             ( { model | words = anagrams }, Cmd.none )
 
         NewWords (Err error) ->
-            ( { model | words = [ toString error ] }, Cmd.none )
+            ( { model | words = [ Debug.toString error ] }, Cmd.none )
 
         ShowDefinition word ->
             ( { model | lookup = ( True, word ) }, Cmd.none )

@@ -7,8 +7,11 @@
     <script src="javascript/countdown.js"></script>
   </head>
   <body>
+      <div id="elm"></div>
       <script>
-        Elm.Countdown.fullscreen();
+        var app = Elm.Countdown.init({
+          node: document.getElementById('elm')
+        });
       </script>
   </body>
 </html>
