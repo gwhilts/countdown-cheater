@@ -1,6 +1,7 @@
 module Cheater exposing (main)
 
-import Html
+import Browser
+import Html exposing (text)
 
 
 
@@ -8,7 +9,11 @@ import Html
 
 
 main =
-    Html.text ("Hello, " ++ initModel.name)
+    Browser.sandbox
+        { init = initModel
+        , view = view
+        , update = update
+        }
 
 
 
@@ -16,9 +21,20 @@ main =
 
 
 initModel =
-    { name = "Elsworth" }
+    { name = "Bullock" }
 
 
 
 -- View
+
+
+view model =
+    text ("Hello, " ++ initModel.name)
+
+
+
 -- Update
+
+
+update msg model =
+    model
