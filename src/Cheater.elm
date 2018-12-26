@@ -45,17 +45,45 @@ view model =
             ]
         , section [ id "letters", class "columns" ]
             [ div [ class "column has-text-centered" ]
-                []
+                (letterboxes model.letters)
             ]
         , section [ id "controls" ]
             [ input
-                [ placeholder "Type scrambled letters here" ]
+                [ placeholder "Type scrambled letters here"
+                , value model.letters
+                ]
                 []
             ]
         , hr [] []
         , section [ id "found-words", class "section" ]
-            []
+            (List.map wordboxFor model.words)
         ]
+
+
+
+-- View Helpers
+
+
+letterboxes : String -> List (Html msg)
+letterboxes letters =
+    letters
+        |> String.toUpper
+        |> String.toList
+        |> List.map letterboxFor
+
+
+letterboxFor : Char -> Html msg
+letterboxFor letter =
+    button [ class "letterbox" ] [ text (String.fromChar letter) ]
+
+
+wordboxFor : String -> Html msg
+wordboxFor word =
+    a
+        [ class "button is-outlined  is-primary"
+        , style "font-size" "30px"
+        ]
+        [ text word ]
 
 
 
