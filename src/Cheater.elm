@@ -11,10 +11,11 @@ import Html.Events exposing (onInput)
 
 
 main =
-    Browser.sandbox
-        { init = initModel
+    Browser.element
+        { init = init
         , view = view
         , update = update
+        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -28,14 +29,16 @@ type alias Model =
     }
 
 
-initModel =
-    Model "tac" [ "act", "cat" ]
+init : () -> ( Model, Cmd Msg )
+init _ =
+    ( Model "tac" [ "act", "cat" ], Cmd.none )
 
 
 
 -- View
 
 
+view : Model -> Html Msg
 view model =
     div [ id "app" ]
         [ header [ id "header", class "hero is-primary" ]
@@ -96,12 +99,12 @@ type Msg
     = ChangeLetters String
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd msg )
 update msg model =
     case msg of
         ChangeLetters newLetters ->
             if String.length newLetters < 10 then
-                { model | letters = newLetters }
+                ( { model | letters = newLetters }, Cmd.none )
 
             else
-                model
+                ( model, Cmd.none )
