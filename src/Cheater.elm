@@ -1,7 +1,8 @@
 module Cheater exposing (main)
 
 import Browser
-import Html exposing (text)
+import Html exposing (..)
+import Html.Attributes exposing (class, id)
 
 
 
@@ -21,7 +22,7 @@ main =
 
 
 initModel =
-    { name = "Bullock" }
+    { name = "Swearengen" }
 
 
 
@@ -29,7 +30,10 @@ initModel =
 
 
 view model =
-    text ("Hello, " ++ initModel.name)
+    div
+        []
+        [ h1 [] [ text ("Hello, " ++ model.name) ]
+        ]
 
 
 
