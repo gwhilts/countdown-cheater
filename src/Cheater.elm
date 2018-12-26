@@ -8,7 +8,7 @@ import Html
 
 
 main =
-    Html.text ("Hello, " ++ initModel)
+    Html.text ("Hello, " ++ initModel.name)
 
 
 
@@ -16,7 +16,7 @@ main =
 
 
 initModel =
-    "PDX.rb"
+    { name = "Elsworth" }
 
 
 

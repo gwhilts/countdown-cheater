@@ -3857,7 +3857,7 @@ function _VirtualDom_dekey(keyedNode)
 		b: keyedNode.b
 	};
 }
-var author$project$Cheater$initModel = 'PDX.rb';
+var author$project$Cheater$initModel = {name: 'Elsworth'};
 var elm$core$Elm$JsArray$foldr = _JsArray_foldr;
 var elm$core$Array$foldr = F3(
 	function (func, baseCase, _n0) {
@@ -4353,5 +4353,5 @@ var elm$virtual_dom$VirtualDom$toHandlerInt = function (handler) {
 };
 var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
-var author$project$Cheater$main = elm$html$Html$text('Hello, ' + author$project$Cheater$initModel);
+var author$project$Cheater$main = elm$html$Html$text('Hello, ' + author$project$Cheater$initModel.name);
 _Platform_export({'Cheater':{'init':_VirtualDom_init(author$project$Cheater$main)(0)(0)}});}(this));
