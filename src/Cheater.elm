@@ -21,8 +21,14 @@ main =
 -- Model
 
 
+type alias Model =
+    { letters : String
+    , words : List String
+    }
+
+
 initModel =
-    { name = "Swearengen" }
+    Model "tac" [ "act", "cat" ]
 
 
 
