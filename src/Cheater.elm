@@ -3,6 +3,7 @@ module Cheater exposing (main)
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onInput)
 
 
 
@@ -51,6 +52,7 @@ view model =
             [ input
                 [ placeholder "Type scrambled letters here"
                 , value model.letters
+                , onInput ChangeLetters
                 ]
                 []
             ]
@@ -90,5 +92,16 @@ wordboxFor word =
 -- Update
 
 
+type Msg
+    = ChangeLetters String
+
+
+update : Msg -> Model -> Model
 update msg model =
-    model
+    case msg of
+        ChangeLetters newLetters ->
+            if String.length newLetters < 10 then
+                { model | letters = newLetters }
+
+            else
+                model
