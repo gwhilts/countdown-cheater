@@ -2,7 +2,7 @@ module Cheater exposing (main)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (class, id)
+import Html.Attributes exposing (..)
 
 
 
@@ -30,9 +30,25 @@ initModel =
 
 
 view model =
-    div
-        []
-        [ h1 [] [ text ("Hello, " ++ model.name) ]
+    div [ id "app" ]
+        [ header [ id "header", class "hero is-primary" ]
+            [ div [ id "title", class "hero-body" ]
+                [ h1 [ class "title has-text-centered" ]
+                    [ text "Countdown Cheater" ]
+                ]
+            ]
+        , section [ id "letters", class "columns" ]
+            [ div [ class "column has-text-centered" ]
+                []
+            ]
+        , section [ id "controls" ]
+            [ input
+                [ placeholder "Type scrambled letters here" ]
+                []
+            ]
+        , hr [] []
+        , section [ id "found-words", class "section" ]
+            []
         ]
 
 
