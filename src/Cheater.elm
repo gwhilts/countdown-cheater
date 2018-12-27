@@ -86,9 +86,13 @@ letterboxFor letter =
 
 wordboxFor : String -> Html msg
 wordboxFor word =
+    let
+        size =
+            word |> String.length |> (\n -> (n * 6) + 2) |> String.fromInt
+    in
     a
         [ class "button is-outlined  is-primary"
-        , style "font-size" "30px"
+        , style "font-size" (size ++ "px")
         ]
         [ text word ]
 
